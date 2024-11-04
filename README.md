@@ -1,0 +1,1 @@
+# my-curd-app-skillrank
