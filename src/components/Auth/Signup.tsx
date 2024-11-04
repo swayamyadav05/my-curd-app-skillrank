@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import PasswordInput from "./PasswordInput";
 import "./Auth.css";
 import { CiUser, CiMail } from "react-icons/ci";
+import Modal from "../Modal/Modal";
 
 interface SignupProps {
   onSignup: () => void;
@@ -17,6 +18,7 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState(false); // State to control modal visibility
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -36,16 +38,16 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
     return true;
   };
 
-  const checkPasswordStrength = (password: string) => {
-    if (password.length < 6) setPasswordStrength("weak");
-    else if (password.length < 10) setPasswordStrength("moderate");
-    else setPasswordStrength("strong");
+  const handlePasswordChange = (value: string) => {
+    setPassword(value);
+    setPasswordStrength(getPasswordStrength(value));
   };
 
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newPassword = e.target.value;
-    setPassword(newPassword);
-    checkPasswordStrength(newPassword);
+  const getPasswordStrength = (value: string) => {
+    if (value.length < 6) return "Weak";
+    else if (value.length >= 6 && /[A-Z]/.test(value) && /\d/.test(value))
+      return "Strong";
+    else return "Moderate";
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -54,22 +56,20 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
 
     try {
       const response = await fetch(
-        "https://qublrgg2p0.execute-api.us-east-1.amazonaws.com/default/login",
+        "https://qublrgg2p0.execute-api.us-east-1.amazonaws.com/default/signup",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ action: "signup", username, email, password }),
         }
       );
+
       const data = await response.json();
 
-      if (
-        response.ok &&
-        data.body &&
-        JSON.parse(data.body).message === "Signup successful !!"
-      ) {
+      if (response.ok) {
+        console.log("Signup successful:", data.message);
         onSignup();
-        navigate("/home");
+        setShowModal(true); // Show the modal on successful signup
       } else {
         setError(data.error || "Signup failed. Please try again.");
       }
@@ -77,6 +77,11 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
       setError("An error occurred. Please try again.");
       console.error("Error during signup:", error);
     }
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    navigate("/login"); // Redirect to login after closing the modal
   };
 
   return (
@@ -92,8 +97,6 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              aria-label="Username"
-              className={error ? "input-error" : ""}
             />
             <CiUser className="input-icon" />
           </div>
@@ -104,23 +107,23 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              aria-label="Email"
-              className={error ? "input-error" : ""}
             />
             <CiMail className="input-icon" />
           </div>
           <PasswordInput
             value={password}
-            onChange={handlePasswordChange}
+            onChange={(e) => handlePasswordChange(e.target.value)}
             showPassword={showPassword}
             togglePasswordVisibility={() => setShowPassword(!showPassword)}
             placeholder="Password"
             id="password"
           />
           {passwordStrength && (
-            <p className={`password-strength ${passwordStrength}`}>
-              Password strength: {passwordStrength}
-            </p>
+            <div
+              className={`password-strength ${passwordStrength.toLowerCase()}`}
+            >
+              Strength: {passwordStrength}
+            </div>
           )}
           <PasswordInput
             value={confirmPassword}
@@ -130,16 +133,15 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
               setShowConfirmPassword(!showConfirmPassword)
             }
             placeholder="Confirm Password"
-            id="confirmPassword"
+            id="confirm-password"
           />
-          <button type="submit" className="login-button">
-            Sign Up
-          </button>
+          <button type="submit">Sign Up</button>
         </form>
         <p>
-          Already have an account? <a href="/login">Log in here</a>.
+          Already have an account? <a href="/login">Login here</a>.
         </p>
       </div>
+      {showModal && <Modal message="Signup successful!" onClose={closeModal} />}
     </div>
   );
 };

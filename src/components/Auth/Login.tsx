@@ -13,6 +13,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -28,6 +29,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     e.preventDefault();
     if (!validateForm()) return;
 
+    setLoading(true);
     try {
       const response = await fetch(
         "https://qublrgg2p0.execute-api.us-east-1.amazonaws.com/default/login",
@@ -52,6 +54,8 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     } catch (error) {
       setError("An error occurred. Please try again.");
       console.error("Error during login:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -81,8 +85,8 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             placeholder="Password"
             id="password"
           />
-          <button type="submit" className="login-button">
-            Login
+          <button type="submit" className="login-button" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
         <p>
