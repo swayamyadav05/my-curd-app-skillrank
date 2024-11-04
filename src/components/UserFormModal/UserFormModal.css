@@ -1,0 +1,168 @@
+:root {
+  --modal-background: rgba(
+    0,
+    0,
+    0,
+    0.7
+  ); /* Darker background for modal overlay */
+  --modal-content-background: linear-gradient(
+    135deg,
+    #f3f4f6,
+    #e2e8f0
+  ); /* Gradient background for modal content */
+  --border-color: #ccc; /* Light border color for inputs */
+  --focus-border-color: #6b7280; /* Darker border color on focus */
+  --submit-button-background: #4f46e5; /* Vibrant button color */
+  --submit-button-hover: #4338ca; /* Darker shade for button on hover */
+  --close-button-color: #9ca3af; /* Soft close button color */
+  --close-button-hover: #6b7280; /* Darker close button on hover */
+  --button-background: #374151; /* Dark background for default buttons */
+  --button-hover-background: #1f2937; /* Darker background for buttons on hover */
+}
+
+.modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: var(--modal-background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content {
+  background-color: var(--modal-content-background);
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3); /* Softer shadow for depth */
+  transform: scale(0.95);
+  animation: scaleIn 0.3s ease-in-out forwards;
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 20px;
+  font-size: 24px;
+  color: var(--close-button-color);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close:hover {
+  color: var(--close-button-hover);
+}
+
+.form-group {
+  margin: 15px 0;
+}
+
+.form-group label {
+  display: block;
+  font-size: 1em;
+  color: #d7d7d7;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  font-size: 1em;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  transition: border-color 0.3s ease;
+  background-color: #ffffff; /* White background for inputs */
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--focus-border-color);
+  outline: none;
+}
+
+.submit-button {
+  margin-top: 15px;
+  padding: 12px 25px;
+  background-color: var(--submit-button-background);
+  color: #ffffff;
+  font-size: 1em;
+  font-weight: 500;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.submit-button:hover {
+  background-color: var(--submit-button-hover);
+  transform: translateY(-1px);
+}
+
+button {
+  padding: 12px 25px;
+  font-size: 1em;
+  background-color: var(--button-background);
+  color: #ffffff;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: var(--button-hover-background);
+  transform: translateY(-1px);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 10;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .modal-content {
+    padding: 20px; /* Adjusted padding for smaller screens */
+  }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%; /* Use full width on smaller screens */
+  }
+
+  .submit-button {
+    width: 100%; /* Make the submit button full-width */
+  }
+}
+
+.form-title {
+  font-size: 1.8em; /* Larger font size for prominence */
+  font-weight: 600; /* Semi-bold for emphasis */
+  color: #bcb9fb; /* Vibrant primary color */
+  text-align: center; /* Center the title */
+  margin-bottom: 20px; /* Space below the title */
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.1); /* Subtle shadow for depth */
+}

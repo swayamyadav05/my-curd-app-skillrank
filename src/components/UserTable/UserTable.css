@@ -1,0 +1,126 @@
+.table-container {
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.table-header {
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  background-color: #000000;
+  color: white;
+  border-radius: 8px;
+  height: 45px;
+}
+
+.table-title {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  color: rgb(255, 255, 255);
+}
+
+.create-user-btn {
+  padding: 4px 8px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.create-user-btn:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-table th,
+.user-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+  border-radius: 5px;
+}
+
+.user-table th {
+  background-color: #3636c9;
+  color: white;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+.user-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.user-table tr:hover {
+  background-color: #e0e0e0;
+  transition: background-color 0.2s ease;
+}
+
+.options-container {
+  position: relative;
+}
+
+.options-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #333;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.options-btn:hover {
+  background: none;
+  color: #007bff;
+  transform: scale(1.3);
+}
+
+/* Pagination container */
+.pagination {
+  display: flex;
+  justify-content: center; /* Center the pagination controls */
+  margin-top: 20px; /* Space above pagination */
+}
+
+/* Individual pagination button */
+.pagination button {
+  background-color: #007bff; /* Primary color for pagination buttons */
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 15px; /* Padding for the buttons */
+  margin: 0 10px; /* Space between buttons */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Transitions for hover effects */
+}
+
+/* Hover effect for pagination buttons */
+.pagination button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+  transform: translateY(-1px); /* Slight lift effect on hover */
+}
+
+/* Active page button styling */
+.pagination button.active {
+  background-color: #0056b3; /* Highlight the active page */
+  font-weight: bold; /* Make the active button bold */
+}
+
+/* Disabled button styling */
+.pagination button:disabled {
+  background-color: #ccc; /* Grey out disabled buttons */
+  cursor: not-allowed; /* Change cursor to indicate disabled state */
+}
