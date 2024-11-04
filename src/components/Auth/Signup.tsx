@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PasswordInput from "./PasswordInput";
 import "./Auth.css";
-import { CiUser } from "react-icons/ci";
-import { CiMail } from "react-icons/ci";
+import { CiUser, CiMail } from "react-icons/ci";
 
 interface SignupProps {
   onSignup: () => void;
@@ -37,16 +36,16 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
     return true;
   };
 
-  const handlePasswordChange = (value: string) => {
-    setPassword(value);
-    setPasswordStrength(getPasswordStrength(value));
+  const checkPasswordStrength = (password: string) => {
+    if (password.length < 6) setPasswordStrength("weak");
+    else if (password.length < 10) setPasswordStrength("moderate");
+    else setPasswordStrength("strong");
   };
 
-  const getPasswordStrength = (value: string) => {
-    if (value.length < 6) return "Weak";
-    if (value.length >= 6 && /[A-Z]/.test(value) && /\d/.test(value))
-      return "Strong";
-    return "Moderate";
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    checkPasswordStrength(newPassword);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -55,20 +54,22 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
 
     try {
       const response = await fetch(
-        "https://qublrgg2p0.execute-api.us-east-1.amazonaws.com/default/signup",
+        "https://qublrgg2p0.execute-api.us-east-1.amazonaws.com/default/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ action: "signup", username, email, password }),
         }
       );
-
       const data = await response.json();
 
-      if (response.ok) {
-        console.log("Signup successful:", data.message);
+      if (
+        response.ok &&
+        data.body &&
+        JSON.parse(data.body).message === "Signup successful !!"
+      ) {
         onSignup();
-        navigate("/login");
+        navigate("/home");
       } else {
         setError(data.error || "Signup failed. Please try again.");
       }
@@ -91,6 +92,8 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
+              aria-label="Username"
+              className={error ? "input-error" : ""}
             />
             <CiUser className="input-icon" />
           </div>
@@ -101,23 +104,23 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              aria-label="Email"
+              className={error ? "input-error" : ""}
             />
             <CiMail className="input-icon" />
           </div>
           <PasswordInput
             value={password}
-            onChange={(e) => handlePasswordChange(e.target.value)}
+            onChange={handlePasswordChange}
             showPassword={showPassword}
             togglePasswordVisibility={() => setShowPassword(!showPassword)}
             placeholder="Password"
             id="password"
           />
           {passwordStrength && (
-            <div
-              className={`password-strength ${passwordStrength.toLowerCase()}`}
-            >
-              Strength: {passwordStrength}
-            </div>
+            <p className={`password-strength ${passwordStrength}`}>
+              Password strength: {passwordStrength}
+            </p>
           )}
           <PasswordInput
             value={confirmPassword}
@@ -127,12 +130,14 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
               setShowConfirmPassword(!showConfirmPassword)
             }
             placeholder="Confirm Password"
-            id="confirm-password"
+            id="confirmPassword"
           />
-          <button type="submit">Sign Up</button>
+          <button type="submit" className="login-button">
+            Sign Up
+          </button>
         </form>
         <p>
-          Already have an account? <a href="/login">Login here</a>.
+          Already have an account? <a href="/login">Log in here</a>.
         </p>
       </div>
     </div>

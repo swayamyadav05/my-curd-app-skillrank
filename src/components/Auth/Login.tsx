@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Auth.css";
 import PasswordInput from "./PasswordInput";
 import { CiUser } from "react-icons/ci";
+
 interface LoginProps {
   onLogin: () => void;
 }
@@ -33,53 +34,22 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            action: "login",
-            username,
-            password,
-          }),
+          body: JSON.stringify({ action: "login", username, password }),
         }
       );
-
       const data = await response.json();
 
-      if (!response.ok) {
-        setError(data.error || "Login failed. Check credentials or try again.");
-        console.error("Error during login:", data);
-        return;
-      }
-
-      console.group("Server Response");
-      console.log("Raw response data:", data);
-
-      if (data.body) {
-        let responseBody;
-        try {
-          responseBody = JSON.parse(data.body);
-        } catch (error) {
-          setError("Failed to parse server response.");
-          console.error("Parsing error:", error);
-          return;
-        }
-
-        console.log("Parsed response body:", responseBody);
-
-        if (responseBody.message === "Login successful !!") {
-          onLogin();
-          console.log("User logged in successfully.");
-          navigate("/home");
-        } else {
-          setError(
-            responseBody.error ||
-              "Login failed. Check credentials or try again."
-          );
-        }
+      if (
+        response.ok &&
+        data.body &&
+        JSON.parse(data.body).message === "Login successful !!"
+      ) {
+        onLogin();
+        navigate("/home");
       } else {
-        setError("Unexpected response format.");
+        setError(data.error || "Login failed. Check credentials or try again.");
       }
-
-      console.groupEnd();
-    } catch (error: any) {
+    } catch (error) {
       setError("An error occurred. Please try again.");
       console.error("Error during login:", error);
     }
@@ -89,11 +59,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     <div className="page-container">
       <div className="auth-container">
         <h2>Login</h2>
-        {error && (
-          <div className="error-message" role="alert" aria-live="assertive">
-            {error}
-          </div>
-        )}
+        {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="input-container">
             <input
