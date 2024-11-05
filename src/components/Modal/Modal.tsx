@@ -1,6 +1,6 @@
 // Modal.tsx
 import React from "react";
-import "./Modal.css"; // Create a CSS file for styling
+import "../UserFormModal/UserFormModal.css";
 
 interface ModalProps {
   message: string;
