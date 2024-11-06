@@ -75,7 +75,7 @@
   border-radius: 6px;
   border: 1px solid var(--border-color);
   transition: border-color 0.3s ease;
-  background-color: #ffffff; /* White background for inputs */
+  background-color: #ffffff;
 }
 
 .form-group input:focus,
