@@ -1,10 +1,5 @@
 :root {
-  --modal-background: rgba(
-    0,
-    0,
-    0,
-    0.7
-  ); /* Darker background for modal overlay */
+  --modal-background: rgba(0, 0, 0, 0.7);
   --modal-content-background: linear-gradient(
     135deg,
     #f3f4f6,
@@ -16,7 +11,7 @@
   --submit-button-hover: #4338ca; /* Darker shade for button on hover */
   --close-button-color: #9ca3af; /* Soft close button color */
   --close-button-hover: #6b7280; /* Darker close button on hover */
-  --button-background: #374151; /* Dark background for default buttons */
+  --button-background: #184287; /* Dark background for default buttons */
   --button-hover-background: #1f2937; /* Darker background for buttons on hover */
 }
 
@@ -36,7 +31,7 @@
 }
 
 .modal-content {
-  background-color: var(--modal-content-background);
+  background-color: whitesmoke;
   padding: 30px;
   border-radius: 12px;
   width: 90%;
@@ -68,7 +63,7 @@
 .form-group label {
   display: block;
   font-size: 1em;
-  color: #d7d7d7;
+  color: #2a2a2a;
   margin-bottom: 6px;
 }
 
@@ -161,7 +156,7 @@ button:hover {
 .form-title {
   font-size: 1.8em; /* Larger font size for prominence */
   font-weight: 600; /* Semi-bold for emphasis */
-  color: #bcb9fb; /* Vibrant primary color */
+  color: #756efb; /* Vibrant primary color */
   text-align: center; /* Center the title */
   margin-bottom: 20px; /* Space below the title */
   text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.1); /* Subtle shadow for depth */
